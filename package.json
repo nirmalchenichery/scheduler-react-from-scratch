@@ -1,8 +1,8 @@
 {
     "private": true,
     "scripts": {
-        "dev": "craco",
-        "build": "craco build"
+        "dev": "vite",
+        "build": "vite build"
     },
     "devDependencies": {
         "@headlessui/react": "^1.4.2",

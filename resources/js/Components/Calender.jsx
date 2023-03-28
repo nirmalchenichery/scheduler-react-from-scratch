@@ -1,5 +1,6 @@
 
-import React, { Fragment, useState } from 'react'
+import GlobalContext from '@/Pages/context/GobalContext'
+import React, { Fragment, useContext, useEffect, useState } from 'react'
 import CalenderHeader from './CalenderHeader'
 import Month from './Month'
 import Sidebar from './Sidebar'
@@ -7,11 +8,15 @@ import {getMonth} from './UtilityFunction'
 
 export default function Calender() {
   // Pass value to function and function will give you that month
-  console.log(getMonth())
+  // console.log(getMonth())
 
   const [currentMonth,setCurrentMonth] = useState(getMonth());
 
-  // const 
+  const {monthIndex} = useContext(GlobalContext)
+
+  useEffect(()=>{
+    setCurrentMonth(getMonth(monthIndex))
+  },[monthIndex])
 
   return (
     <Fragment>
