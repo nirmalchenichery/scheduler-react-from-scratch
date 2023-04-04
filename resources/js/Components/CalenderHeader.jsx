@@ -13,7 +13,10 @@ export default function CalenderHeader() {
     }
     
     const handleReset =() =>{
-        setMonthIndex(dayjs().month()); //current month
+        setMonthIndex(
+            monthIndex === dayjs().month() ?
+            monthIndex + Math.random() : dayjs().month()
+        ); //current month
     }
 
     return (
