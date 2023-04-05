@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from "react"
+import React, { useEffect, useMemo, useReducer, useState } from "react"
 import GlobalContext from "./GobalContext"
 import dayjs from "dayjs"
 
@@ -24,13 +24,10 @@ export default function ContextWrapper(props) {
 
     const [monthIndex, setMonthIndex] = useState(dayjs().month());  // chnage to current month 
     const [smallCalenderMonth, setSmallCalenderMonth] = useState(null);
-    
     const [daySelected, setDaySelected] = useState(dayjs()); //Chnage to current date
-    // const [daySelected, setDaySelected] = useState(dayjs());
-
     const [showEventModal, setShowEventModal] = useState(false);
     const [selectedEvent, setSelectedEvent] = useState(null);
-
+    const [labels,setLabels] = useState([]);
 
     const [savedEvents,dispatchCalEvent] = useReducer(
         savedEventsReducer,
@@ -38,24 +35,53 @@ export default function ContextWrapper(props) {
         initEvents //
     );
 
-    // useEffect(()=>{
-    //     localStorage.setItem('savedEvents',JSON.stringify(savedEvents))
-    // },[savedEvents])
-
-
-
     useEffect(() => {
-        localStorage.setItem("savedEvents", JSON.stringify(savedEvents));
-      }, [savedEvents]);
+      localStorage.setItem("savedEvents", JSON.stringify(savedEvents));
+    }, [savedEvents]);
 
-
-
+    
+    useEffect(() => {
+      setLabels((prevLabels) => {
+        return [...new Set(savedEvents.map((evt) => evt.label))].map(
+          (label) => {
+            const currentLabel = prevLabels.find((lbl) => lbl.label === label);
+            return {
+              label,
+              checked: currentLabel ? currentLabel.checked : true,
+            };
+          }
+        );
+      });
+    }, [savedEvents]);
 
     useEffect(()=>{
         if(smallCalenderMonth !== null){
             setMonthIndex(smallCalenderMonth)
         }
-    },[smallCalenderMonth])
+    },[smallCalenderMonth]);
+  
+  
+    function updateLabel(label) {
+      setLabels(
+        labels.map((lbl) => (lbl.label === label.label ? label : lbl))
+      );
+    }
+
+    const filteredEvents = useMemo(() => {
+      return savedEvents.filter((evt) =>
+        labels
+          .filter((lbl) => lbl.checked)
+          .map((lbl) => lbl.label)
+          .includes(evt.label)
+      );
+    }, [savedEvents, labels]);
+
+    // clear the Event Modal popup
+    useEffect(() => {
+      if (!showEventModal) {
+        setSelectedEvent(null);
+      }
+    }, [showEventModal]);
 
     return (
         <GlobalContext.Provider
@@ -66,18 +92,16 @@ export default function ContextWrapper(props) {
                 setSmallCalenderMonth,
                 daySelected,
                 setDaySelected,
-
                 showEventModal,
                 setShowEventModal,
-
                 dispatchCalEvent,
-
-
-
-                
                 savedEvents,
                 selectedEvent,
-                setSelectedEvent
+                setSelectedEvent,
+                labels,
+                setLabels,
+                updateLabel,
+                filteredEvents
             }}
         >
             {props.children}

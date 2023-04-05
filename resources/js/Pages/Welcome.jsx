@@ -3,6 +3,8 @@ import Calender from '@/Components/Calender';
 import ContextWrapper from './context/ContextWrapper';
 
 export default function Welcome(props) {
+
+    // dayts -- holiday array
     return (
         <>
           <ContextWrapper>
