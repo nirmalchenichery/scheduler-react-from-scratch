@@ -17,6 +17,7 @@ const GlobalContext = createContext({
     setLabels: () => {},
     updateLabel:() => {},
     filteredEvents:[],
+    holiday:[]
 })
 
 export default GlobalContext;

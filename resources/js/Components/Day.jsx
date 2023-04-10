@@ -1,5 +1,6 @@
 import GlobalContext from '@/Pages/context/GobalContext';
 import dayjs from 'dayjs'
+import { get } from 'lodash';
 import React, { useContext, useEffect, useState } from 'react'
 
 export default function Day(props) {
@@ -11,6 +12,7 @@ export default function Day(props) {
           setShowEventModal,
           filteredEvents,// savedEvents,
           setSelectedEvent,
+          holiday
         } = useContext(GlobalContext);
   
   useEffect(()=>{
@@ -25,8 +27,12 @@ export default function Day(props) {
       : "";
   }
 
+  const getHolidayClass = () =>{
+    return holiday.includes(props.day.format("YYYY-MM-DD")) ? "bg-red-600" : "";
+  }
+
   return (
-    <div className='border border-gray-200 flex flex-col'>
+    <div className={`border border-gray-200 flex flex-col ${getHolidayClass()}`}>
         <header className='flex flex-col items-center'>
              {/* {
                 props.rowIndex === 0 && (<p className="text-sm mt-1">{props.day.format('ddd').toUpperCase()}</p>)
@@ -41,7 +47,7 @@ export default function Day(props) {
         <div className='flex-1 cursor-pointer' 
               onClick={()=>{
                 setDaySelected(props.day)
-                setShowEventModal(true)
+                holiday.includes(props.day.format("YYYY-MM-DD")) ? "" : setShowEventModal(true)
             }}
         >
             

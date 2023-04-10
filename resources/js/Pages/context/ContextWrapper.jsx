@@ -22,6 +22,9 @@ function savedEventsReducer(state, { type, payload }) {
 
 export default function ContextWrapper(props) {
 
+    const holiday = [ '2023-04-10', '2023-04-11', '2023-04-23', '2023-05-11'];
+
+
     const [monthIndex, setMonthIndex] = useState(dayjs().month());  // chnage to current month 
     const [smallCalenderMonth, setSmallCalenderMonth] = useState(null);
     const [daySelected, setDaySelected] = useState(dayjs()); //Chnage to current date
@@ -101,7 +104,8 @@ export default function ContextWrapper(props) {
                 labels,
                 setLabels,
                 updateLabel,
-                filteredEvents
+                filteredEvents,
+                holiday
             }}
         >
             {props.children}
