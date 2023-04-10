@@ -1,36 +1,64 @@
+import React, { useState } from 'react'
+import CalendarDays from './Days';
 
-import GlobalContext from '@/Pages/context/GobalContext'
-import React, { Fragment, useContext, useEffect, useState } from 'react'
-import CalenderHeader from './CalenderHeader'
-import EventModal from './EventModal'
-import Month from './Month'
-import Sidebar from './Sidebar'
-import {getMonth} from './UtilityFunction'
+const Calender = () => {
+   
+  const months = ['January', 'February', 'March', 'April', 'May', 'June', 
+                  'July', 'August', 'September', 'October', 'November', 'December'];
 
-export default function Calender() {
-  // Pass value to function and function will give you that month
-  // console.log(getMonth())
+  const  [currentDay,setCurrentDay ] =  useState(new Date());
 
-  const [currentMonth,setCurrentMonth] = useState(getMonth());
+  const changeCurrentDay = (day) => {
+    setCurrentDay(new Date(day.year, day.month, day.number));
+  }
+  
+  const handleNextMonth = () => {
+      setCurrentDay( new Date(currentDay.setDate(currentDay.getDate() + 30)) );
+  }
 
-  const {monthIndex,showEventModal} = useContext(GlobalContext)
+  const handlePrevMonth = () => {
+      setCurrentDay(new Date(currentDay.setDate(currentDay.getDate() - 30)));
+  }
 
-  useEffect(()=>{
-    setCurrentMonth(getMonth(monthIndex))
-  },[monthIndex])
+  const handleReset =() =>{
+      setCurrentDay(new Date());
+  }
 
   return (
-    <Fragment>
-      {showEventModal && <EventModal/> }
-      <div className="h-screen flex flex-col">
-          <CalenderHeader />
-          <div className="flex flex-1">
-            <Sidebar />
-            <Month month={currentMonth}/>
+      <div className="calendar">
+        
+        <header className="calendar-header px-4 py-2 flex items-center">
+          <h1 className="mr-10 text-xl text-gray-500 font-bold"> Calender </h1>
+          <button className="border rounded py-2 px-4 mr-5" 
+                  onClick={handleReset}
+          > Today </button>
 
-          </div>
+          <button 
+                onClick={handlePrevMonth}
+          >
+              {/* material-icons-outlined */}
+              <span className=" cursor-pointer text-gray-600 mx-2 font-bold border rounded py-2 px-4 mr-5">
+                  {/* chevron_left */} Prevous
+              </span>
+          </button>
 
+          <p className='header-year'>{months[currentDay.getMonth()]} {currentDay.getFullYear()}</p>
+
+          <button 
+            onClick={handleNextMonth}
+          >
+            {/* material-icons-outlined */}
+            <span className=" cursor-pointer text-gray-600 mx-2 font-bold border rounded py-2 px-4 mr-5">
+                {/* chevron_right */}
+                Next
+            </span>
+          </button>
+      </header>
+        <div className="calendar-body">
+          <div className="table-header"></div>
+          <CalendarDays day={currentDay} changeCurrentDay={changeCurrentDay} />
+        </div>
       </div>
-    </Fragment>
   )
 }
+export default Calender;
