@@ -12,7 +12,6 @@ export default function Calender() {
   // console.log(getMonth())
 
   const [currentMonth,setCurrentMonth] = useState(getMonth());
-
   const {monthIndex,showEventModal} = useContext(GlobalContext)
 
   useEffect(()=>{
@@ -25,11 +24,9 @@ export default function Calender() {
       <div className="h-screen flex flex-col">
           <CalenderHeader />
           <div className="flex flex-1">
-            <Sidebar />
+            {/* <Sidebar /> */}
             <Month month={currentMonth}/>
-
           </div>
-
       </div>
     </Fragment>
   )

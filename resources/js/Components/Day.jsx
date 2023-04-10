@@ -43,7 +43,6 @@ export default function Day(props) {
                 setDaySelected(props.day)
                 setShowEventModal(true)
             }}
-            
         >
             
           {dayEvents.map((evt,index)=>(

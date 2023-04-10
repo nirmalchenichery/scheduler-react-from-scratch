@@ -30,14 +30,18 @@ export default function CalenderHeader() {
                     chevron_left
                 </span>
             </button>
+
+            <h2 className="ml-4 text-xl text-gray-500 font-bold">
+                {dayjs(new Date(dayjs().year(),monthIndex)).format("MMMM YYYY")}
+            </h2>
+
+            
             <button onClick={handleNextMonth}>
                 <span className="material-icons-outlined cursor-pointer text-gray-600 mx-2">
                     chevron_right
                 </span>
             </button>
-            <h2 className="ml-4 text-xl text-gray-500 font-bold">
-                {dayjs(new Date(dayjs().year(),monthIndex)).format("MMMM YYYY")}
-            </h2>
+           
         </header>
     );
 }
