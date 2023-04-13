@@ -21,6 +21,7 @@
     },
     "dependencies": {
         "@craco/craco": "^7.1.0",
-        "dayjs": "^1.11.7"
+        "dayjs": "^1.11.7",
+        "moment": "^2.29.4"
     }
 }
