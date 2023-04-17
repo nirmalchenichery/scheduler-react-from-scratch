@@ -23,10 +23,14 @@ const CalendarDays = (props) => {
   //     setTimeSlots(slot('08:00','16:00'))
   //  },[]);
 
-  const [timeSlots,setTimeSlots] = useState([])
+  // console.log(props.day)
 
+
+  const [timeSlots,setTimeSlots] = useState([])
   const [message,setMessage] = useState("")
 
+  const [selectedDay,SetSelectedDay] = useState("")
+  // let slotList = [];
 
   const firstDayOfMonth = new Date(props.day.getFullYear(), props.day.getMonth(), 1);
   const weekdayOfFirstDay = firstDayOfMonth.getDay();
@@ -82,10 +86,17 @@ const CalendarDays = (props) => {
       setMessage("No Slot Available")
       setTimeSlots([])
     }
+
+    SetSelectedDay(day);
+
   }
 
+
   const slotList = timeSlots.map( (slot,index) => {
-    return <SlotListItem key={index} slot={slot} setSeletedDate={props.setSeletedDate}/>
+    return <SlotListItem key={index} slot={slot} 
+                         setSeletedDate={props.setSeletedDate} 
+                         selectedDay={selectedDay.date} 
+                         setShowCalender={props.setShowCalender}/>
   })
 
   return (
