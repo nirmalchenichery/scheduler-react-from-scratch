@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
 import CalendarDays from './Days';
-import { set } from 'lodash';
-// import CalenderModal from './CalenderModal';
 import CalenderModal from './CalenderModal';
 import PeopleModal from './PeopleModal';
 
@@ -52,13 +50,6 @@ const Calender = () => {
   const  [seletedPeople,SetSeletedPeople ] =  useState("");
   const  [showNoPeople,setShowNoPeople ] =  useState(false);
 
-
-
-  // const  [showCalenderModal,setShowCalenderModal ] =  useState(true);
-
-  // const  [showCalenderModal,setShowCalenderModal ] =  useState(true);
-
-
   const changeCurrentDay = (day) => {
     setCurrentDay(new Date(day.year, day.month, day.number));
   }
@@ -76,19 +67,14 @@ const Calender = () => {
   }
 
   const handleDate = ()=>{
+    setShowNoPeople(false);
     setShowCalender(true);
   }
 
-  // const [openModal, setOpenModal] = useState(false);
-
-  // const handlePeople = ()=>{
-  //   setShowNoPeople(true);
-  // }
-
   const toggleModal = () => {
+    setShowCalender(false);
     setShowNoPeople(!showNoPeople);
   };
-
 
   return (
       <>
@@ -100,14 +86,21 @@ const Calender = () => {
             onChange={(e)=>setSeletedDate(e.target.value)}
             onClick={handleDate}
           />
+          <span> 
+            <input 
+              type="text" 
+              className='w-80' 
+              value={seletedPeople}
+              onChange={(e)=>SetNoPeople(e.target.value)}
+              onClick={toggleModal}
+            />
+          </span>
           <span>
-          <input 
-            type="text" 
-            className='w-80' 
-            value={seletedPeople}
-            onChange={(e)=>SetNoPeople(e.target.value)}
-            onClick={toggleModal}
-          />
+              <button>
+                <span className=" cursor-pointer text-blue-600 mx-2 font-bold border rounded py-2 px-4 mr-5">
+                    Search
+                </span>
+              </button>
           </span>
       </div>
 
@@ -160,7 +153,10 @@ const Calender = () => {
 
 
       {
-          showNoPeople &&  <PeopleModal toggleModal ={toggleModal}/>
+          showNoPeople &&  <PeopleModal toggleModal = {toggleModal} 
+                                        SetSeletedPeople={SetSeletedPeople}
+                                        setShowNoPeople={setShowNoPeople}
+                            />
       }
 
         {/* {showNoPeople && (

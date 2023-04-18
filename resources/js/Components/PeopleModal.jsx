@@ -1,111 +1,89 @@
-import React, { useState } from 'react'
+import { useState, useEffect } from "react";
 
 export default function PeopleModal(props) {
 
-    const handleChange = (event) => {
-        console.log( event.name)
+  const [noOfPeopleSelected, SetNoOfPeopleSelected] = useState([]);
 
-        console.log({value: event.target.value});
-    }
-    const datas = [
-        {
-          id: 1,
-          name: 'Adult',
-        //   age: 21
-        },
-        {
-          id: 2,
-          name: 'Child',
-        //   age: 30
-        }
-      ];
-    
-      const [data, setData] = useState(datas);
-    
-      const updateState = (index) => (e) => {
+  useEffect(() => {
+    getList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
+  const getList = () => {
+    let data = [
+      {
+        id: 1,
+        label: "大人"
+      },
+      {
+        id: 2,
+        label: "子供"
+      }
+    ];
+    SetNoOfPeopleSelected(data)
+  };
 
-        const newArray = data.map((item, i) => {
+  const handleChange = (e) => {
+    SetNoOfPeopleSelected(
+      noOfPeopleSelected.map((item) =>
+        item.id === +e.target.id ? { ...item, no_of_people: +e.target.value } : item
+      )
+    );
+  };
 
-            // console.log(item)
-            // console.log(i)
-
-            // let new_name = e.target.value;
-            // if(item.name === 'candybar'){
-            //    new_name = 'Candy Bar';
-            // } else if (item.name === 'whitechocolatebar'){
-            // new_name = 'White Chocolate Bar';
-            // }
-            // return ({ ...item, new_name });
-
-
-
-            // if (index === i) {
-
-
-            //     return { ...item, "no_of": e.target.value };
-            // } else {
-            //     return item;
-            // }
-
-
-
-          if (index === i) {
-            return { ...item, [e.target.name]: item.name ,"new_name" :e.target.value};
-          } else {
-            return item;
-          }
-
-        //   if (index === i) {
-        //     return { ...item, [e.target.name]: e.target.value };
-        //   } else {
-        //     return item;
-        //   }
-
-
-        });
-
-
-
-        setData(newArray);
-      };
-
-      console.log(data)
-      
+  const handleOk =() =>{
+    let peopleSelected ="";
+    noOfPeopleSelected.map((item) =>
+      peopleSelected = (peopleSelected ? (peopleSelected + " . "):peopleSelected) + item.label + (item.no_of_people ? item.no_of_people : 0) + "名"
+    );
+    props.SetSeletedPeople(peopleSelected);
+    props.setShowNoPeople(false)
+  }
 
   return (
-        <div className="modal">
-            <div onClick={props.toggleModal} className="overlay"></div>
-            <div className="modal-content">
-                {data.map((datum, index) => {
+    // className="modal"
+    <div className="border"> 
+        {/* <div onClick={props.toggleModal} className="overlay"></div>
+          <div className="modal-content"> */}
+           
+              {noOfPeopleSelected.length > 0 ? (
+                  noOfPeopleSelected.map((item, index) => (
+                    <div key={item.id}>
+                      <label>{item.label}</label>
+                      <input
+                        type="number"
+                        id={item.id}
+                        name="no_of_people"
+                        min={0}
+                        value={item.no_of_people ? item.no_of_people : 0}
+                        onChange={(e) => handleChange(e)}
+                      />
+                    </div>
+                  ))
+                ) : (
+                  <span>No data</span>
+                )
+                
+              }
 
-                   return  (<div>
-                           
-                           <input
-                        type="text"
-                        name="name"
-                        value={datum.name}
-                        onChange={updateState(index)}
-                    />
-
-                        </div>   )
-
-                    // console.log(datum)
-                    // <li key={datum.name}>
-                    // <input
-                    //     type="text"
-                    //     name="name"
-                    //     value={datum.name}
-                    //     onChange={updateState(index)}
-                    // />
-                    // </li>;
-                    })}
-
-
-
-
-
+            <div className='mt-2 ml-10'>
+                <button 
+                    onClick={handleOk}
+                    className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-3 px-4 border border-blue-500 hover:border-transparent rounded">
+                    OK
+                </button>
             </div>
-         </div>
-  )
+          {/* </div> */}
+    </div>
+  );
 }
+
+
+// return (
+  //       <div className="modal">
+  //           <div onClick={props.toggleModal} className="overlay"></div>
+  //           <div className="modal-content">
+             
+  //           </div>
+  //        </div>
+  // )
