@@ -28,20 +28,11 @@ const Calender = () => {
       },
   ];
  
-  const months = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-  ];
+  const months = Array.from({length: 12}, (e, i) => {
+    return new Date(null, i + 1, null).toLocaleDateString("en", {month: "long"});
+  })
+
+
 
   const  [currentDay,setCurrentDay ] =  useState(new Date());
   const  [showCalender,setShowCalender ] =  useState(false);
