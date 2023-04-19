@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import CalendarDays from './Days';
 import CalenderModal from './CalenderModal';
-import PeopleModal from './PeopleModal';
+import PeopleModal from '../PeopleModal';
 
 
 const Calender = () => {
